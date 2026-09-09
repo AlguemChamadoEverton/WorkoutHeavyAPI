@@ -1,18 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Tokens;
+﻿
 using MinhaPrimeiraAPI.Data;
 using MinhaPrimeiraAPI.Models;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using System.Data.Entity;
-using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using System.Text;
-using MinimalApis.Extensions;
 using MinhaPrimeiraAPI.Services.AuthService;
 using MinhaPrimeiraAPI.Services.ExerciseService;
 using MinhaPrimeiraAPI.Services.RoutineService;
@@ -28,7 +17,7 @@ namespace MinhaPrimeiraAPI.Endpoints
             app.MapGet("/", () =>
             {
 
-            });
+            }).WithParameterValidation().RequireAuthorization();;
 
             app.MapPost("/", () =>
             {
@@ -95,7 +84,6 @@ namespace MinhaPrimeiraAPI.Endpoints
             {
                 return RoutineService.DeleteRoutine(jwt, id);
             }).RequireAuthorization().WithParameterValidation();
-
         }
     }
 }

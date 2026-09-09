@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
 using MinhaPrimeiraAPI.Services.AuthService;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -44,15 +46,21 @@ var app = builder.Build();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
+    
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "WorkoutHeavy API");
+    });
 }
-EndpointsService Route = new (app.Configuration);
-Route.Endpoints(app);
+EndpointsService route = new (app.Configuration);
+
+route.Endpoints(app);
 
 app.UseHttpsRedirection();
-
 
 app.Run();
