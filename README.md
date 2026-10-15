@@ -44,4 +44,4 @@ Cada usuário só vê e altera os próprios exercícios e rotinas.
 2. Configurar a conexão com o banco no `appsettings.json`
 3. Aplicar as migrations: `dotnet ef database update`
 4. Rodar: `dotnet run`
-5. Abrir o front-end (MeuPrimeiroFront) no navegador
+5. Abrir o front-end (WorkoutHeavyFront) no navegador
